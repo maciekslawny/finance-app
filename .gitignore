@@ -2,5 +2,8 @@
 __pycache__
 db.sqlite3
 
+# dependencies
+/frontend/finance-app/node_modules
+
 #enviroment
 my_env
