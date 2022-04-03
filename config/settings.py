@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-fesh57oxgb6*(vpo*+b4kgc-0_rl-)_b4&2ud)v_!k^6#7-ql4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['51.68.137.244']
+ALLOWED_HOSTS = ['51.68.137.244', '127.0.0.1']
 
 
 # Application definition
@@ -137,6 +137,9 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ],
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # "PAGE_SIZE": 1,
+    
 }
 
 CORS_ALLOWED_ORIGINS = [

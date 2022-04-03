@@ -58,7 +58,20 @@ function WalletTable(props) {
             </tr>
           ))}
         </tbody>
+        
       </table>
+      {props.prevPageNum &&
+        <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => props.setPageNum(props.prevPageNum)}
+                >Prew {props.prevPageNum}</button>
+        }    
+        {props.nextPageNum && 
+        <button
+                  className=" btn btn-sm btn-danger"
+                  onClick={() => props.setPageNum(props.nextPageNum)}
+                >Next {props.nextPageNum}</button>
+        } 
       <p>SUM: {props.items[0] && props.items[0].get_sum}</p>
     </div>
   );

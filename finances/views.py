@@ -3,6 +3,8 @@ from api_data.models import Currency
 from django.db.models import Sum
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
+from .pagination import SmallResultsSetPagination
 
 from .models import Asset, Category, Operation
 from .serializers import (AssetSerializer, CategorySerializer,
@@ -11,6 +13,7 @@ from .serializers import (AssetSerializer, CategorySerializer,
 
 class OperationViewSet(viewsets.ModelViewSet):
     serializer_class = OperationSerializer
+    pagination_class = SmallResultsSetPagination
 
     def get_queryset(self):
         queryset = Operation.objects.filter(user=self.request.user)
