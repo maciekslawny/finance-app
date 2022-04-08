@@ -10,11 +10,7 @@ function ProfileEdit() {
   const [currencyList, setCurrencyList] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("accounts/your-profile/1/").then((res) => {
-      const newData = res.data;
-      setProfileState(newData);
-      console.log(res.data);
-    });
+
 
     axiosInstance.get("api-data/currency").then((res) => {
       const newData = res.data;
