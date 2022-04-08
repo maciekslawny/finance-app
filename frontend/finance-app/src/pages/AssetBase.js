@@ -22,7 +22,7 @@ function AssetBase() {
       setAssetList({ loading: false, data: newData });
       console.log(res.data);
     });
-  }, [setAppState]);
+  }, [1]);
   return (
     <div className="App">
       {appState.data == null || assetList.data == null ? (
