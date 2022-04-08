@@ -21,7 +21,7 @@ function ProfileEdit() {
       setCurrencyList(newData);
       console.log(res.data);
     });
-  }, [setProfileState]);
+  }, [setCurrencyList]);
 
   function handleSubmit() {
     console.log(profileState);
