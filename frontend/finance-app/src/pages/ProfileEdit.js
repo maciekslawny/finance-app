@@ -7,7 +7,7 @@ function ProfileEdit() {
     goal_amount: 0,
     goal_currency: 0,
   });
-  const [currencyList, setCurrencyList] = useState([]);
+  const [currencyList, setCurrencyList] = useState([1,2]);
 
   useEffect(() => {
 
