@@ -23,7 +23,7 @@ render(
     {/* <Header /> */}
     <Routes>
       <Route path="/testsite" element={<TestSite />} />
-      <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<TestSite />} />
       <Route path="wallet/" element={<WalletBase />} />
       <Route path="wallet/add" element={<WalletAdd />} />
       <Route path="wallet/:id" element={<WalletEdit />} />

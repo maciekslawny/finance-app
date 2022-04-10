@@ -1,6 +1,8 @@
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
+import math
+
 class SmallResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
@@ -29,6 +31,6 @@ class SmallResultsSetPagination(PageNumberPagination):
             'current_page': int(self.request.query_params.get('page', 1)),
             'total': self.page.paginator.count,
             'per_page': self.page_size,
-            'total_pages': round(self.page.paginator.count/self.page_size, 1),
+            'total_pages': int(math.ceil(self.page.paginator.count/self.page_size)),
             'data': data,
         })
