@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
+import Pagination from '@mui/material/Pagination';
 
 const operation = {
   name: "Kebabik",
@@ -60,18 +61,12 @@ function WalletTable(props) {
         </tbody>
         
       </table>
-      {props.prevPageNum &&
-        <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => props.setPageNum(props.prevPageNum)}
-                >Prew {props.prevPageNum}</button>
-        }    
-        {props.nextPageNum && 
-        <button
-                  className=" btn btn-sm btn-danger"
-                  onClick={() => props.setPageNum(props.nextPageNum)}
-                >Next {props.nextPageNum}</button>
-        } 
+   
+
+
+  <Pagination count={props.totalPages} page={props.pageNum} onChange={(event, value) => props.setPageNum(value)} />
+
+
       <p>SUM: {props.items[0] && props.items[0].get_sum}</p>
     </div>
   );

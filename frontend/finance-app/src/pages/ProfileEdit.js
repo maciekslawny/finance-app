@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../axios";
+import Button from '@material-ui/core/Button'
+import SaveIcon from '@material-ui/icons/Save'
 
 function ProfileEdit() {
   const [profileState, setProfileState] = useState({
@@ -7,17 +9,21 @@ function ProfileEdit() {
     goal_amount: 0,
     goal_currency: 0,
   });
-  const [currencyList, setCurrencyList] = useState([1,2]);
+  const [currencyList, setCurrencyList] = useState([]);
 
   useEffect(() => {
-
+    axiosInstance.get("accounts/your-profile/1/").then((res) => {
+      const newData = res.data;
+      setProfileState(newData);
+      console.log(res.data);
+    });
 
     axiosInstance.get("api-data/currency").then((res) => {
       const newData = res.data;
       setCurrencyList(newData);
       console.log(res.data);
     });
-  }, [setCurrencyList]);
+  }, [setProfileState]);
 
   function handleSubmit() {
     console.log(profileState);
@@ -73,9 +79,10 @@ function ProfileEdit() {
         ))}
       </select>
 
-      <button className="btn btn-success" onClick={handleSubmit}>
-        Edit
-      </button>
+
+      <Button endIcon={<SaveIcon />} variant="contained" color="primary" onClick={handleSubmit}>
+      Edit
+      </Button>
     </div>
   );
 }

@@ -8,14 +8,11 @@ function WalletBase() {
   });
 
   const [pageNum, setPageNum] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [prevPageNum, setPrevPageNum] = useState(1);
   const [nextPageNum, setNextPageNum] = useState(2);
 
-  function test(){
-    setPageNum(nextPageNum)
-    console.log('page Num:', pageNum, appState)
-    console.log(nextPageNum)
-  }
+
 
   useEffect(() => {
 
@@ -23,6 +20,7 @@ function WalletBase() {
     axiosInstance.get(`finances/operations/?page=${pageNum}`).then((res) => {
       const newData = res.data;
       setAppState({ loading: false, finances: newData });
+      setTotalPages(newData.total_pages)
       setNextPageNum(newData.links.next)
       setPrevPageNum(newData.links.previous)
       console.log(res.data);
@@ -39,7 +37,7 @@ function WalletBase() {
         </h2>
       ) : (
         <div>
-        <WalletTable items={appState.finances.data} prevPageNum={prevPageNum} nextPageNum={nextPageNum} setPageNum={setPageNum}/>
+        <WalletTable items={appState.finances.data} pageNum={pageNum} prevPageNum={prevPageNum} nextPageNum={nextPageNum} setPageNum={setPageNum} totalPages={totalPages}/>
 
         
         </div>

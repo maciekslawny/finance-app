@@ -15,11 +15,14 @@ import WalletEdit from "./pages/WalletEdit";
 import Chart from "./pages/Chart";
 import Dashboard from "./pages/Dashboard";
 import ProfileEdit from "./pages/ProfileEdit";
+import Navbar from "./components/Navbar";
+import TestSite from "./components/TestSite";
 
 render(
   <BrowserRouter>
-    <Header />
+    {/* <Header /> */}
     <Routes>
+      <Route path="/testsite" element={<TestSite />} />
       <Route path="/" element={<Dashboard />} />
       <Route path="wallet/" element={<WalletBase />} />
       <Route path="wallet/add" element={<WalletAdd />} />
