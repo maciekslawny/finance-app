@@ -1,20 +1,51 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
+// import * as React from 'react';
+import React, { useEffect, useState } from "react";
+import { Container, makeStyles, Typography } from "@material-ui/core";
+import axiosInstance from "../axios";
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import EditModal from "./EditModal";
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+const useStyles = makeStyles((theme) => ({
+  expense: {
+    backgroundColor: "#ffe6e6",
+  },
+  revenue: {
+    backgroundColor: "#f5fff2",
+  },
+  tableHead: {
+    fontWeight: "bold",
+  },
+  iconButton: {
+    marginRight: 5,
+    color: "gray",
+    cursor: "default",
+    "&:hover": {
+      cursor: "pointer",
+      color: "black",
+    },
+  },
+
+}));
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -43,28 +74,36 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   );
@@ -77,33 +116,31 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
+export default function CustomPaginationActionsTable(props) {
+  const classes = useStyles();
 
-const rows = [
-  createData('Cupcake', 305, 3.7),
-  createData('Donut', 452, 25.0),
-  createData('Eclair', 262, 16.0),
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Gingerbread', 356, 16.0),
-  createData('Honeycomb', 408, 3.2),
-  createData('Ice cream sandwich', 237, 9.0),
-  createData('Jelly Bean', 375, 0.0),
-  createData('KitKat', 518, 26.0),
-  createData('Lollipop', 392, 0.2),
-  createData('Marshmallow', 318, 0),
-  createData('Nougat', 360, 19.0),
-  createData('Oreo', 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
-export default function CustomPaginationActionsTable() {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [appState, setAppState] = useState({
+    finances: [],
+  });
+
+
+
+  useEffect(() => {
+    axiosInstance.get(`finances/operations`).then((res) => {
+      const newData = res.data;
+      setAppState({ loading: false, finances: newData });
+      console.log(res.data);
+    });
+  }, [props.updatedTimes]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - appState.finances.length)
+      : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -114,23 +151,69 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
+  const handleDelete = (event) => {
+    const res = axiosInstance.delete(`finances/operations/${event.currentTarget.id}`).then(() => props.setUpdatedTimes(props.updatedTimes + 1));
+    
+
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+        <TableHead>
+          <TableRow>
+            <TableCell component="th" scope="row">
+              <Typography className={classes.tableHead}>Name</Typography>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <Typography className={classes.tableHead}>Type</Typography>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <Typography className={classes.tableHead}>Date</Typography>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <Typography className={classes.tableHead}>Amount</Typography>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <Typography className={classes.tableHead}>Options</Typography>
+            </TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? appState.finances.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : appState.finances
           ).map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.calories}
+                {row.operation_type}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.fat}
+                {row.operation_date}
+              </TableCell>
+              <TableCell
+                className={
+                  row.operation_type == "expense"
+                    ? classes.expense
+                    : classes.revenue
+                }
+                style={{ width: 160 }}
+                align="right"
+              >
+                {row.operation_type == "expense" ? "-" : "+"}
+                {row.amount} {row.operation_currency}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+              <ButtonGroup variant="outlined" aria-label="outlined button group">
+                <DeleteIcon id={row.id} className={classes.iconButton} fontSize="small" onClick={handleDelete} />
+                <EditModal itemId={row.id} updatedTimes={props.updatedTimes} setUpdatedTimes={props.setUpdatedTimes} />
+              </ButtonGroup>
               </TableCell>
             </TableRow>
           ))}
@@ -144,14 +227,14 @@ export default function CustomPaginationActionsTable() {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={appState.finances.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
                 inputProps: {
-                  'aria-label': 'rows per page',
+                  "aria-label": "rows per page",
                 },
                 native: true,
               }}

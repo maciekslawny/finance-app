@@ -13,7 +13,6 @@ from .serializers import (AssetSerializer, CategorySerializer,
 
 class OperationViewSet(viewsets.ModelViewSet):
     serializer_class = OperationSerializer
-    pagination_class = SmallResultsSetPagination
 
     def get_queryset(self):
         queryset = Operation.objects.filter(user=self.request.user)
