@@ -4,7 +4,8 @@ import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import Link from '@mui/material/Link';
+import Link from "@material-ui/core/Link";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +66,7 @@ const Leftbar = () => {
       </div>
       <div className={classes.item}>
         <AccountBoxIcon className={classes.icon} />
-        <Link className={classes.text} href="/login" underline="always">
+        <Link className={classes.text} href="#" to="/login" component={NavLink} >
             User Profile
         </Link>
       </div>
