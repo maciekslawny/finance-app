@@ -23,7 +23,6 @@ const style = {
 };
 
 const useStyles = makeStyles((theme) => ({
-
   iconButton: {
     marginRight: 5,
     color: "gray",
@@ -62,7 +61,7 @@ export default function EditModal(props) {
     axiosInstance
       .put(`finances/operations/${props.itemId}/`, JSON.stringify(assetData))
       .then();
-    props.setUpdatedTimes(props.updatedTimes + 1)
+    props.setUpdatedTimes(props.updatedTimes + 1);
     setOpen(false);
   }
 
@@ -76,7 +75,11 @@ export default function EditModal(props) {
 
   return (
     <div>
-      <EditIcon className={classes.iconButton} fontSize="small" onClick={handleOpen}/>
+      <EditIcon
+        className={classes.iconButton}
+        fontSize="small"
+        onClick={handleOpen}
+      />
       <Modal
         open={open}
         onClose={handleClose}
@@ -153,7 +156,9 @@ export default function EditModal(props) {
                   ))}
                 </TextField>
               )}
-              <Button variant="contained" onClick={handleSubmit}>Add</Button>
+              <Button variant="contained" onClick={handleSubmit}>
+                Add
+              </Button>
             </div>
           </Typography>
         </Box>

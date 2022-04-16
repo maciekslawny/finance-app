@@ -36,10 +36,16 @@ const Feed = () => {
       </Breadcrumbs>
       <Card className={classes.card}>
         <CardContent>
-          <AddModal updatedTimes={updatedTimes} setUpdatedTimes={setUpdatedTimes} />
+          <AddModal
+            updatedTimes={updatedTimes}
+            setUpdatedTimes={setUpdatedTimes}
+          />
         </CardContent>
       </Card>
-      <CustomPaginationActionsTable updatedTimes={updatedTimes} setUpdatedTimes={setUpdatedTimes}/>
+      <CustomPaginationActionsTable
+        updatedTimes={updatedTimes}
+        setUpdatedTimes={setUpdatedTimes}
+      />
     </Container>
   );
 };

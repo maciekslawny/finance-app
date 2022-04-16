@@ -10,7 +10,6 @@ import { alpha, makeStyles } from "@material-ui/core/styles";
 import { Cancel, Mail, Notifications, Search } from "@material-ui/icons";
 import { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

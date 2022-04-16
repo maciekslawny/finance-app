@@ -23,7 +23,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import EditModal from "./EditModal";
-import ButtonGroup from '@mui/material/ButtonGroup';
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 const useStyles = makeStyles((theme) => ({
   expense: {
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
   },
-
 }));
 
 function TablePaginationActions(props) {
@@ -126,8 +125,6 @@ export default function CustomPaginationActionsTable(props) {
     finances: [],
   });
 
-
-
   useEffect(() => {
     axiosInstance.get(`finances/operations`).then((res) => {
       const newData = res.data;
@@ -152,10 +149,10 @@ export default function CustomPaginationActionsTable(props) {
   };
 
   const handleDelete = (event) => {
-    const res = axiosInstance.delete(`finances/operations/${event.currentTarget.id}`).then(() => props.setUpdatedTimes(props.updatedTimes + 1));
-    
-
-  }
+    const res = axiosInstance
+      .delete(`finances/operations/${event.currentTarget.id}`)
+      .then(() => props.setUpdatedTimes(props.updatedTimes + 1));
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -210,10 +207,22 @@ export default function CustomPaginationActionsTable(props) {
                 {row.amount} {row.operation_currency}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-              <ButtonGroup variant="outlined" aria-label="outlined button group">
-                <DeleteIcon id={row.id} className={classes.iconButton} fontSize="small" onClick={handleDelete} />
-                <EditModal itemId={row.id} updatedTimes={props.updatedTimes} setUpdatedTimes={props.setUpdatedTimes} />
-              </ButtonGroup>
+                <ButtonGroup
+                  variant="outlined"
+                  aria-label="outlined button group"
+                >
+                  <DeleteIcon
+                    id={row.id}
+                    className={classes.iconButton}
+                    fontSize="small"
+                    onClick={handleDelete}
+                  />
+                  <EditModal
+                    itemId={row.id}
+                    updatedTimes={props.updatedTimes}
+                    setUpdatedTimes={props.setUpdatedTimes}
+                  />
+                </ButtonGroup>
               </TableCell>
             </TableRow>
           ))}

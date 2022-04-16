@@ -50,11 +50,20 @@ const Leftbar = () => {
     <Container className={classes.container}>
       <div className={classes.item}>
         <Home className={classes.icon} />
-        <Typography className={classes.text}>Homepage</Typography>
+        <Link className={classes.text} href="#" to="/" component={NavLink}>
+          Dashboard
+        </Link>
       </div>
       <div className={classes.item}>
         <AccountBalanceWalletIcon className={classes.icon} />
-        <Typography className={classes.text}>Wallet</Typography>
+        <Link
+          className={classes.text}
+          href="#"
+          to="/wallet"
+          component={NavLink}
+        >
+          Wallet
+        </Link>
       </div>
       <div className={classes.item}>
         <MonetizationOnIcon className={classes.icon} />
@@ -66,8 +75,8 @@ const Leftbar = () => {
       </div>
       <div className={classes.item}>
         <AccountBoxIcon className={classes.icon} />
-        <Link className={classes.text} href="#" to="/login" component={NavLink} >
-            User Profile
+        <Link className={classes.text} href="#" to="/login" component={NavLink}>
+          User Profile
         </Link>
       </div>
     </Container>

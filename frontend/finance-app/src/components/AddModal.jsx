@@ -8,7 +8,6 @@ import axiosInstance from "../axios";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -61,12 +60,9 @@ export default function AddModal(props) {
   }, [1]);
 
   function handleSubmit() {
-    axiosInstance
-      .post("finances/operations/", JSON.stringify(date))
-      .then();
-      props.setUpdatedTimes(props.updatedTimes + 1)
-      setOpen(false);
-
+    axiosInstance.post("finances/operations/", JSON.stringify(date)).then();
+    props.setUpdatedTimes(props.updatedTimes + 1);
+    setOpen(false);
   }
 
   function handleInputChange(event) {
@@ -76,11 +72,10 @@ export default function AddModal(props) {
 
   return (
     <div>
-        <Button onClick={handleOpen} variant="contained" color="primary">
-            Add new
-        </Button>
-      
-      
+      <Button onClick={handleOpen} variant="contained" color="primary">
+        Add new
+      </Button>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -152,7 +147,9 @@ export default function AddModal(props) {
                   ))}
                 </TextField>
               )}
-              <Button variant="contained" onClick={handleSubmit}>Edit</Button>
+              <Button variant="contained" onClick={handleSubmit}>
+                Edit
+              </Button>
             </div>
           </Typography>
         </Box>
