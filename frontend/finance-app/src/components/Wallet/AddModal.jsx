@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { makeStyles, Typography } from "@material-ui/core";
 import Modal from "@mui/material/Modal";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";

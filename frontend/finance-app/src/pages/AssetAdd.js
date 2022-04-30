@@ -39,7 +39,7 @@ function AssetAdd() {
       setCryptocurrencyData(newData);
       console.log(res.data);
     });
-  }, [setCurrencyData]);
+  }, [assetTypes]);
 
   function handleSubmit() {
     console.log(assetData);

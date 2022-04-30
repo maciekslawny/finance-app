@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Feed = () => {
+const WalletPage = () => {
   const [updatedTimes, setUpdatedTimes] = useState(0);
   const classes = useStyles();
   return (
@@ -50,4 +50,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default WalletPage;

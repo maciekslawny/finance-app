@@ -1,5 +1,4 @@
 import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
-import CustomPaginationActionsTable from "../CustomPaginationActionsTable";
 import Card from "@material-ui/core/Card";
 import React, { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";

@@ -1,7 +1,7 @@
 // import * as React from 'react';
 import React, { useEffect, useState } from "react";
 import { Container, makeStyles, Typography } from "@material-ui/core";
-import axiosInstance from "../axios";
+import axiosInstance from "../../axios";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -115,18 +115,18 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function CustomPaginationActionsTable(props) {
+export default function AssetTableItems(props) {
   const classes = useStyles();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const [appState, setAppState] = useState({
     finances: [],
   });
 
   useEffect(() => {
-    axiosInstance.get(`finances/operations`).then((res) => {
+    axiosInstance.get(`finances/asset`).then((res) => {
       const newData = res.data;
       setAppState({ loading: false, finances: newData });
       console.log(res.data);
@@ -150,7 +150,7 @@ export default function CustomPaginationActionsTable(props) {
 
   const handleDelete = (event) => {
     const res = axiosInstance
-      .delete(`finances/operations/${event.currentTarget.id}`)
+      .delete(`finances/asset/${event.currentTarget.id}`)
       .then(() => props.setUpdatedTimes(props.updatedTimes + 1));
   };
 
@@ -163,10 +163,10 @@ export default function CustomPaginationActionsTable(props) {
               <Typography className={classes.tableHead}>Name</Typography>
             </TableCell>
             <TableCell style={{ width: 160 }} align="right">
-              <Typography className={classes.tableHead}>Type</Typography>
+              <Typography className={classes.tableHead}>Category</Typography>
             </TableCell>
             <TableCell style={{ width: 160 }} align="right">
-              <Typography className={classes.tableHead}>Date</Typography>
+              <Typography className={classes.tableHead}>Type</Typography>
             </TableCell>
             <TableCell style={{ width: 160 }} align="right">
               <Typography className={classes.tableHead}>Amount</Typography>
@@ -186,13 +186,13 @@ export default function CustomPaginationActionsTable(props) {
           ).map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.tag}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.operation_type}
+                {row.category_name}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.operation_date}
+                {row.type}
               </TableCell>
               <TableCell
                 className={

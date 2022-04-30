@@ -67,7 +67,9 @@ const Leftbar = () => {
       </div>
       <div className={classes.item}>
         <MonetizationOnIcon className={classes.icon} />
-        <Typography className={classes.text}>Asset</Typography>
+        <Link className={classes.text} href="#" to="/assetnew" component={NavLink}>
+          Asset
+        </Link>
       </div>
       <div className={classes.item}>
         <EqualizerIcon className={classes.icon} />

@@ -24,6 +24,7 @@ urlpatterns = [
     # path('api/api_data/', include("api_data.urls", namespace="api_data")),
     path("api/accounts/", include("accounts.urls", namespace="accounts")),
     path("api/api-data/", include("api_data.urls", namespace="api-data")),
+    path("api/properties/", include("properties.urls", namespace="properties")),
     path("api-auth/", include("rest_framework.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
