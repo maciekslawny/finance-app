@@ -92,7 +92,7 @@ const Leftbar = () => {
       </div>
       <div className={classes.item}>
         <SearchIcon className={classes.icon} />
-        <Link className={classes.text} href="#" to="/properties-map" component={NavLink}>
+        <Link className={classes.text} href="#" to="/searches" component={NavLink}>
           Properties Searches
         </Link>
       </div>

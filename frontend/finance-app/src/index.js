@@ -24,6 +24,8 @@ import AssetPage from "./components/Asset/AssetPage";
 import PropertiesMap from "./components/Properites/PropertiesMap";
 import PropertiesBase from "./components/Properites/PropertiesBase";
 import PropertyDetails from "./components/Properites/PropertyDetails";
+import SearchesBase from "./components/Searches/SearchesBase";
+
 
 render(
   <BrowserRouter>
@@ -53,6 +55,7 @@ render(
             <Route path="/properties-map" element={<PropertiesMap />} />
             <Route path="/properties" element={<PropertiesBase />} />
             <Route path="/properties/:id" element={<PropertyDetails />} />
+            <Route path="/searches" element={<SearchesBase />} />
           </Routes>
         </Grid>
       </Grid>

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import PropertyOffer, PropertyImage, Searches
-from .serializers import PropertyOfferSerializer, PropertyImageSerializer, SearchesSerializer
+from .models import PropertyOffer, PropertyImage, Searches, City
+from .serializers import PropertyOfferSerializer, PropertyImageSerializer, \
+    SearchesSerializer, CitiesSerializer
 
 
 # Create your views here.
@@ -38,3 +39,7 @@ class PropertyImageViewSet(viewsets.ModelViewSet):
 class SearchesViewSet(viewsets.ModelViewSet):
     serializer_class = SearchesSerializer
     queryset = Searches.objects.all()
+
+class CitiesViewSet(viewsets.ModelViewSet):
+    serializer_class = CitiesSerializer
+    queryset = City.objects.all()
