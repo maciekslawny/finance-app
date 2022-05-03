@@ -4,8 +4,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import React, { useEffect, useState } from "react";
 import CardTotalAmount from "./CardTotalAmount";
-import CardCategories from "./CardCategories";
-import CardAsset from "./CardAsset";
+import axiosInstance from "../../axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -22,6 +21,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
+  const [infoFinances, setInfoFinances] = useState();
+
+  useEffect(() => {
+    axiosInstance.get(`finances/asset-info`).then((res) => {
+      setInfoFinances(res.data);
+    });
+
+  }, [1]);
+
   return (
     <Container className={classes.container}>
       <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
@@ -30,18 +38,19 @@ const Dashboard = () => {
         </Link>
         <Typography color="textPrimary">Dashboard</Typography>
       </Breadcrumbs>
-
+      {infoFinances &&
       <Grid container className={classes.gridContainer}>
-        <Grid item sm={4}>
-          <CardCategories />
+        <Grid item sm={3}>
+          <CardTotalAmount name={'Total balance'} totalAmount={infoFinances.balance} currency={infoFinances.user_currency} />
         </Grid>
         <Grid item sm={3}>
-          <CardTotalAmount totalAmount={15000} completePercentage={30} />
+          <CardTotalAmount name={'Total wallet'} totalAmount={infoFinances.wallet_value_user_currency} currency={infoFinances.user_currency} />
         </Grid>
-        <Grid item sm={4}>
-          <CardAsset />
+        <Grid item sm={3}>
+        <CardTotalAmount name={'Total asset'} totalAmount={infoFinances.assets_value_user_currency} currency={infoFinances.user_currency} />
         </Grid>
       </Grid>
+      }
     </Container>
   );
 };

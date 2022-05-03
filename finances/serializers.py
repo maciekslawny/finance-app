@@ -4,7 +4,6 @@ from .models import Asset, Category, Operation
 
 
 class OperationSerializer(serializers.ModelSerializer):
-    get_sum = serializers.ReadOnlyField()
 
     class Meta:
         model = Operation

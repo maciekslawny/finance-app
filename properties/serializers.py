@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import PropertyOffer, PropertyImage
+from .models import PropertyOffer, PropertyImage, Searches
 
 
 class PropertyOfferSerializer(serializers.ModelSerializer):
@@ -19,3 +19,10 @@ class PropertyImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = PropertyImage
         fields = "__all__"
+
+class SearchesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Searches
+        fields = "__all__"
+        

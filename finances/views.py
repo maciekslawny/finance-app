@@ -100,16 +100,20 @@ class AssetInfoView(views.APIView):
 
         return total_value
 
+
+
     def get(self, request):
         user = request.user
         user_profile = UserProfile.objects.get(user=user)
-        user_currency = user_profile.selected_currency.symbol
+        user_currency = user_profile.selected_currency
 
         assets = Asset.objects.filter(user=user)
 
         assets_dictionary = self.create_assets_dictionary(assets)
 
         assets_value = self.get_total_value(assets_dictionary)
+
+        assets_value_user_currency = round(assets_value/user_currency.price,2)
 
         total_revenue = Operation.objects.filter(
             operation_type="revenue", user=user
@@ -122,23 +126,25 @@ class AssetInfoView(views.APIView):
         if total_expenses == None:
             total_expenses = 0
 
-        total_wallet = (
-            (total_revenue - total_expenses)
+        total_wallet = total_revenue - total_expenses
+
+        total_wallet_user_currency = (
+            total_wallet
             * Currency.objects.get(symbol="PLN").price
-            / Currency.objects.get(symbol=user_currency).price
+            / user_currency.price
         )
 
         balance = (
-            int(assets_value) / Currency.objects.get(symbol=user_currency).price
+            int(assets_value) / user_currency.price
             + total_wallet
         )
-        balance_currency = Currency.objects.get(symbol=user_currency).symbol
+        
 
         # GOAL PROGRESS
 
         balance_in_goal_currency = round(
             balance
-            * Currency.objects.get(symbol=user_currency).price
+            * user_currency.price
             / user_profile.goal_currency.price,
             2,
         )
@@ -156,8 +162,11 @@ class AssetInfoView(views.APIView):
         result = {
             "assets": assets_dictionary,
             "assets_value": assets_value,
+            "assets_value_user_currency": assets_value_user_currency,
+            "wallet_value_pln": total_wallet,
+            "wallet_value_user_currency": total_wallet_user_currency,
             "balance": int(balance),
-            "balance_currency": balance_currency,
+            "user_currency": user_currency.symbol,
             "goal_amount": goal_amount,
             "balance_in_goal_currency": balance_in_goal_currency,
             "goal_currency": goal_currency,

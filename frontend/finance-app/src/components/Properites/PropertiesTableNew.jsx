@@ -115,23 +115,17 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function PropertiesTableNew() {
+export default function PropertiesTableNew(props) {
   const classes = useStyles();
   const [item, setItem] = useState(null);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const [properties, setProperties] = useState([]);
 
-  useEffect(() => {
-    axiosInstance.get(`properties/new`).then((res) => {
-      setProperties(res.data);
-    });
-  }, [1]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - properties.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.properties.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -145,7 +139,7 @@ export default function PropertiesTableNew() {
   function update(id, item){
     axiosInstance
         .put(`properties/all/${id}/`, JSON.stringify(item))
-        .then();
+        .then(props.setUpdatedTimes(props.updatedTimes+1));
   }
   
   const handleAccept = (event) => {
@@ -156,6 +150,17 @@ export default function PropertiesTableNew() {
       .then((res) => {
         item = res.data;
         item.new = false
+        update(id, item)
+      });
+  };
+  const handleDelete = (event) => {
+    let item = null;
+    let id = event.currentTarget.id;
+    axiosInstance
+      .get(`properties/new/${event.currentTarget.id}/`)
+      .then((res) => {
+        item = res.data;
+        item.deleted = true
         update(id, item)
       });
   };
@@ -196,7 +201,13 @@ export default function PropertiesTableNew() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {properties.map((row) => (
+          {(rowsPerPage > 0
+            ? props.properties.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : props.properties
+          ).map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 <Link href={'/properties/' + row.id} variant="body2">
@@ -230,6 +241,12 @@ export default function PropertiesTableNew() {
                     fontSize="small"
                     onClick={handleAccept}
                   />
+                  <DeleteIcon
+                    id={row.id}
+                    className={classes.iconButton}
+                    fontSize="small"
+                    onClick={handleDelete}
+                  />
                 </ButtonGroup>
               </TableCell>
             </TableRow>
@@ -246,7 +263,7 @@ export default function PropertiesTableNew() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={properties.length}
+              count={props.properties.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

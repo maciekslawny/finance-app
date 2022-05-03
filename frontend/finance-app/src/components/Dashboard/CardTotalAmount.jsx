@@ -17,16 +17,12 @@ const CardTotalAmount = (props) => {
     <Card className={classes.card}>
       <CardContent>
         <Typography component="p" variant="h6">
-          Total amount
+          {props.name}
         </Typography>
-        <Typography component="p" variant="h4">
-          {props.totalAmount} USD
-        </Typography>
-        <Typography color="text.secondary" sx={{ flex: 1 }}>
-          on 15 March, 2019
+        <Typography component="p" variant="h5">
+          {props.totalAmount} {props.currency}
         </Typography>
 
-        <ProgressBar completePercentage={props.completePercentage} />
       </CardContent>
     </Card>
   );

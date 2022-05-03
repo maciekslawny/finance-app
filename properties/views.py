@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import PropertyOffer, PropertyImage
-from .serializers import PropertyOfferSerializer, PropertyImageSerializer
+from .models import PropertyOffer, PropertyImage, Searches
+from .serializers import PropertyOfferSerializer, PropertyImageSerializer, SearchesSerializer
 
 
 # Create your views here.
@@ -9,15 +9,14 @@ from .serializers import PropertyOfferSerializer, PropertyImageSerializer
 class PropertyOfferAllViewSet(viewsets.ModelViewSet):
     serializer_class = PropertyOfferSerializer
     queryset = PropertyOffer.objects.all()
-    
 
 class PropertyOfferOldViewSet(viewsets.ModelViewSet):
     serializer_class = PropertyOfferSerializer
-    queryset = PropertyOffer.objects.filter(new=False)
+    queryset = PropertyOffer.objects.filter(new=False, deleted=False)
 
 class PropertyOfferNewViewSet(viewsets.ModelViewSet):
     serializer_class = PropertyOfferSerializer
-    queryset = PropertyOffer.objects.filter(new=True)
+    queryset = PropertyOffer.objects.filter(new=True, deleted=False)
 
 class PropertyOfferMapViewSet(viewsets.ModelViewSet):
     serializer_class = PropertyOfferSerializer
@@ -35,3 +34,7 @@ class PropertyImageViewSet(viewsets.ModelViewSet):
             for image in images.all():
                 print(image.url)
         return PropertyImage.objects.filter(property_offer=pk).first()
+
+class SearchesViewSet(viewsets.ModelViewSet):
+    serializer_class = SearchesSerializer
+    queryset = Searches.objects.all()

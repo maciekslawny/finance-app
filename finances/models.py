@@ -43,19 +43,6 @@ class Operation(models.Model):
     # class Meta:
     #     ordering = ('operation_date')
 
-    @property
-    def get_sum(self):
-        total_revenue = Operation.objects.filter(
-            operation_type="revenue", user=self.user
-        ).aggregate(Sum("amount"))["amount__sum"]
-        total_expenses = Operation.objects.filter(
-            operation_type="expense", user=self.user
-        ).aggregate(Sum("amount"))["amount__sum"]
-        try:
-            result = total_revenue - total_expenses
-        except:
-            result = 0
-        return result
 
     class Meta:
         ordering = ["-operation_date"]

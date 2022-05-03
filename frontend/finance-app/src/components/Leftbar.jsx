@@ -6,6 +6,9 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import Link from "@material-ui/core/Link";
 import { NavLink } from "react-router-dom";
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import MapIcon from '@material-ui/icons/Map';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,6 +77,24 @@ const Leftbar = () => {
       <div className={classes.item}>
         <EqualizerIcon className={classes.icon} />
         <Typography className={classes.text}>Statistic</Typography>
+      </div>
+      <div className={classes.item}>
+        <HomeWorkIcon className={classes.icon} />
+        <Link className={classes.text} href="#" to="/properties" component={NavLink}>
+          Properties
+        </Link>
+      </div> 
+      <div className={classes.item}>
+        <MapIcon className={classes.icon} />
+        <Link className={classes.text} href="#" to="/properties-map" component={NavLink}>
+          Properties Map
+        </Link>
+      </div>
+      <div className={classes.item}>
+        <SearchIcon className={classes.icon} />
+        <Link className={classes.text} href="#" to="/properties-map" component={NavLink}>
+          Properties Searches
+        </Link>
       </div>
       <div className={classes.item}>
         <AccountBoxIcon className={classes.icon} />
