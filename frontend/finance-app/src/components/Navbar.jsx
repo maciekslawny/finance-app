@@ -8,8 +8,15 @@ import {
 } from "@material-ui/core";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import { Cancel, Mail, Notifications, Search } from "@material-ui/icons";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
+import axiosInstance from "../axios";
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import {NavLink} from "react-router-dom";
+import Link from "@material-ui/core/Link";
+import IconButton from '@mui/material/IconButton';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -68,14 +75,31 @@ const useStyles = makeStyles((theme) => ({
   logoutIcon: {
     marginRight: theme.spacing(1),
   },
+  iconButton: {
+    marginLeft: 0,
+    marginRight: 0,
+    color: "white"
+  },
   badge: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(0),
   },
 }));
 
 const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const classes = useStyles({ openSearch });
+  let [isAuthorized, setIsAuthorized] = useState({authorized: false});
+  let [updatedTimes, setUpdatedTimes] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation()
+
+  useEffect(() => {
+    axiosInstance.get(`accounts/is-authorized/`).then((res) => {
+      setIsAuthorized(res.data)
+    });
+  }, [location.pathname]);
+
+
   return (
     <AppBar position="fixed">
       <Toolbar className={classes.toolbar}>
@@ -98,13 +122,39 @@ const Navbar = () => {
             className={classes.searchButton}
             onClick={() => setOpenSearch(true)}
           />
-          <Badge badgeContent={2} color="secondary" className={classes.badge}>
-            <Mail />
-          </Badge>
-          <Badge badgeContent={0} color="secondary" className={classes.badge}>
-            <Notifications />
-          </Badge>
-          <LogoutIcon className={classes.logoutIcon} />
+
+
+          {isAuthorized.authorized ?
+          <div>
+
+              <IconButton  href="/logout"  rel="noopener noreferrer">
+                <Badge badgeContent={2} color="secondary" className={classes.badge}>
+                <Mail className={classes.iconButton} />
+                </Badge>
+                </IconButton>
+
+            <IconButton href="/register"  rel="noopener noreferrer">
+               <Badge badgeContent={0} color="secondary" className={classes.badge}>
+
+                <Notifications className={classes.iconButton} href="#" to="/user-settings" />
+               </Badge>
+               </IconButton>
+
+            <IconButton href="/logout"  rel="noopener noreferrer">
+
+              <LogoutIcon className={classes.iconButton} onClick={() => setUpdatedTimes(updatedTimes+1)} />
+            </IconButton>
+          </div>
+              :
+          <div>
+            <IconButton href="/register"  rel="noopener noreferrer">
+              <AppRegistrationIcon className={classes.iconButton} />
+            </IconButton>
+            <IconButton href="/login"  rel="noopener noreferrer">
+              <LoginIcon className={classes.iconButton} onClick={() => setUpdatedTimes(updatedTimes+1)} />
+            </IconButton>
+          </div>
+          }
           <Avatar alt="Maciej Slawny" src="" />
         </div>
       </Toolbar>

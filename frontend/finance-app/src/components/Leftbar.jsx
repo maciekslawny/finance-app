@@ -98,8 +98,8 @@ const Leftbar = () => {
       </div>
       <div className={classes.item}>
         <AccountBoxIcon className={classes.icon} />
-        <Link className={classes.text} href="#" to="/login" component={NavLink}>
-          User Profile
+        <Link className={classes.text} href="#" to="/user-settings" component={NavLink}>
+          User Settings
         </Link>
       </div>
     </Container>

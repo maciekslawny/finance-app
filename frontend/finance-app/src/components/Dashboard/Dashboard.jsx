@@ -11,8 +11,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(10),
   },
   gridContainer: {
-    justifyContent: "space-between",
-    width: "100vh",
+    marginTop: 5,
   },
   card: {
     height: 250,
@@ -39,15 +38,15 @@ const Dashboard = () => {
         <Typography color="textPrimary">Dashboard</Typography>
       </Breadcrumbs>
       {infoFinances &&
-      <Grid container className={classes.gridContainer}>
-        <Grid item sm={3}>
+      <Grid className={classes.gridContainer} container justifyContent="space-around" spacing={3} >
+        <Grid item sm={4}>
           <CardTotalAmount name={'Total balance'} totalAmount={infoFinances.balance} currency={infoFinances.user_currency} />
         </Grid>
-        <Grid item sm={3}>
+        <Grid item sm={4}>
           <CardTotalAmount name={'Total wallet'} totalAmount={infoFinances.wallet_value_user_currency} currency={infoFinances.user_currency} />
         </Grid>
-        <Grid item sm={3}>
-        <CardTotalAmount name={'Total asset'} totalAmount={infoFinances.assets_value_user_currency} currency={infoFinances.user_currency} />
+        <Grid item sm={4}>
+          <CardTotalAmount name={'Total asset'} totalAmount={infoFinances.assets_value_user_currency} currency={infoFinances.user_currency} />
         </Grid>
       </Grid>
       }

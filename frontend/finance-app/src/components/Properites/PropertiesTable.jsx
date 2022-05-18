@@ -22,6 +22,12 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Link from '@mui/material/Link';
+import CloseIcon from '@mui/icons-material/Close';
+import RemoveIcon from '@mui/icons-material/Remove';
+import CheckIcon from '@mui/icons-material/Check';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 const useStyles = makeStyles((theme) => ({
   expense: {
@@ -155,6 +161,30 @@ export default function PropertiesTable(props) {
       });
   };
 
+  const handleTurnFavorite = (event) => {
+    let item = null;
+    let id = event.currentTarget.id;
+    axiosInstance
+      .get(`properties/old/${event.currentTarget.id}/`)
+      .then((res) => {
+        item = res.data;
+        item.favorite = true
+        update(id, item)
+      });
+  };
+
+  const handleTurnOffFavorite = (event) => {
+    let item = null;
+    let id = event.currentTarget.id;
+    axiosInstance
+      .get(`properties/old/${event.currentTarget.id}/`)
+      .then((res) => {
+        item = res.data;
+        item.favorite = false
+        update(id, item)
+      });
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
@@ -171,6 +201,9 @@ export default function PropertiesTable(props) {
             </TableCell>
             <TableCell style={{ width: 160 }} align="right">
               <Typography className={classes.tableHead}>City</Typography>
+            </TableCell>
+            <TableCell style={{ width: 160 }} align="right">
+              <Typography className={classes.tableHead}>Map</Typography>
             </TableCell>
             <TableCell style={{ width: 160 }} align="right">
               <Typography className={classes.tableHead}>Options</Typography>
@@ -201,13 +234,29 @@ export default function PropertiesTable(props) {
                 style={{ width: 160 }}
                 align="right"
               >
-                {row.city}
+                {row.city_name}
+              </TableCell>
+              <TableCell
+                style={{ width: 160 }}
+                align="right"
+              >
+                {row.has_coordinates ?
+                    <CheckIcon style={{ color: 'green' }}/>
+                    :
+                    <RemoveIcon/>
+                }
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 <ButtonGroup
                   variant="outlined"
                   aria-label="outlined button group"
                 >
+
+                  {row.favorite ?
+                    <FavoriteIcon id={row.id} onClick={handleTurnOffFavorite} className={classes.iconFavorite} style={{ color: 'red' }}/>
+                    :
+                    <FavoriteBorderIcon id={row.id} onClick={handleTurnFavorite} className={classes.iconNotFavorite}/>
+                }
                   <DeleteIcon
                     id={row.id}
                     className={classes.iconButton}

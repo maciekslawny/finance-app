@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios";
 import PropertyGallery from "./PropertyGallery";
+import PropertyDetaIlsTable from "./PropertyDetaIlsTable";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,7 +42,7 @@ const PropertyDetails = () => {
 
   const classes = useStyles();
   return (
-    <Container className={classes.container}>
+    <Container className={classes.container} style={{textAlign: "center"}} >
       <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
         <Link color="inherit" href="/">
           Home
@@ -50,15 +52,27 @@ const PropertyDetails = () => {
       <Card className={classes.optionsCard}>
         <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        {property.name}
-        </Typography>
-        <Typography gutterBottom variant="h7" component="div">
-        {property.price} PLN, {property.meters} m2
-        </Typography>
+            <Link color="inherit" href={property.offer_link}>
+          {property.name}
+        </Link>
+        </Typography><PropertyDetaIlsTable property={property}/>
             {property.images &&
-                <PropertyGallery images={property.images} />
+                <Grid
+                  container
+
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+
+                  <Grid item xs={12}>
+                   <PropertyGallery images={property.images}   />
+                  </Grid>
+
+                </Grid>
+
             }
-            
+
             <Typography gutterBottom component="div">
         {property.description}
         </Typography>
